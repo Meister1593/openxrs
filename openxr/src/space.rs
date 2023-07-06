@@ -148,11 +148,7 @@ impl Space {
                 &locate_info,
                 &mut location_info,
             ))?;
-            Ok(if location_info.is_active.into() {
-                Some(locations.assume_init())
-            } else {
-                None
-            })
+            Ok(Some(locations.assume_init()))
         }
     }
 
