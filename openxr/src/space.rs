@@ -124,7 +124,7 @@ impl Space {
         &self,
         tracker: &HandTracker,
         time: Time,
-    ) -> Result<Option<HandJointLocations>> {
+    ) -> (Result<Option<(bool, HandJointLocations)>>) {
         // This assert allows this function to be safe.
         assert_eq!(&*self.session as *const session::SessionInner, &*tracker.session as *const session::SessionInner,
                    "`self` and `tracker` must have been created, allocated, or retrieved from the same `Session`");
@@ -148,7 +148,8 @@ impl Space {
                 &locate_info,
                 &mut location_info,
             ))?;
-            Ok(Some(locations.assume_init()))
+            let is_active: bool = Into::<bool>::into(location_info.is_active);
+            Ok(Some((is_active, locations.assume_init())))
         }
     }
 
